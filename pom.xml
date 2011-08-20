@@ -8,13 +8,13 @@
     <relativePath>../parent</relativePath>
   </parent>
 
-  <groupId>org.codehaus.sonar-plugins.build-stability</groupId>
-  <artifactId>build-stability</artifactId>
+  <groupId>org.codehaus.sonar-plugins.multi-build-stability</groupId>
+  <artifactId>multi-build-stability</artifactId>
   <packaging>pom</packaging>
-  <version>1.2-SNAPSHOT</version>
-  <name>Build Stability</name>
+  <version>0.1-SNAPSHOT</version>
+  <name>Multi Build Stability</name>
 
-  <inceptionYear>2010</inceptionYear>
+  <inceptionYear>2011</inceptionYear>
 
   <organization>
     <name>Evgeny Mandrikov</name>
@@ -22,14 +22,14 @@
   </organization>
 
   <properties>
-    <sonar.version>2.2</sonar.version>
+    <sonar.version>2.10</sonar.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>sonar-build-stability-api</artifactId>
+        <artifactId>sonar-multi-build-stability-api</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -72,23 +72,18 @@
       <name>Evgeny Mandrikov</name>
       <timezone>+3</timezone>
     </developer>
+    <developer>
+      <id>olabini</id>
+      <name>Ola Bini</name>
+      <timezone>-6</timezone>
+    </developer>
   </developers>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/build-stability</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/build-stability</developerConnection>
-    <url>http://svn.sonar-plugins.codehaus.org</url>
+    <connection>scm:git:git://github.com/olabini/sonar-multi-build-stability.git</connection>
+    <developerConnection>scm:got:https://olabini@github.com/olabini/sonar-multi-build-stability.git</developerConnection>
+    <url>https://github.com/olabini/sonar-multi-build-stability</url>
   </scm>
-
-  <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/14312</url>
-  </issueManagement>
-
-  <ciManagement>
-    <system>Bamboo</system>
-    <url>http://ci.codehaus.org/browse/SONAR-BUILDSTABILITY</url>
-  </ciManagement>
 
   <licenses>
     <license>
