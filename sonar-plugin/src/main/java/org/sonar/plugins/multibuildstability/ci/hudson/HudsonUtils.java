@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability.ci.hudson;
+package org.sonar.plugins.multibuildstability.ci.hudson;
 
 import java.io.IOException;
 

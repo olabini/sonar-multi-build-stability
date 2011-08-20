@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability;
+package org.sonar.plugins.multibuildstability;
 
 import org.apache.commons.configuration.BaseConfiguration;
 import org.apache.commons.configuration.Configuration;

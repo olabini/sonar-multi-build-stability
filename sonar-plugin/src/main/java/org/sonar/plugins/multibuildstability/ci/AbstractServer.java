@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability.ci;
+package org.sonar.plugins.multibuildstability.ci;
 
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;

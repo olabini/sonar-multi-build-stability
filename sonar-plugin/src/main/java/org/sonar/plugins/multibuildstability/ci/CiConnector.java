@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability.ci;
+package org.sonar.plugins.multibuildstability.ci;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -22,7 +22,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 import org.sonar.api.utils.SonarException;
-import org.sonar.plugins.buildstability.Build;
+import org.sonar.plugins.multibuildstability.Build;
 
 import java.io.IOException;
 import java.util.ArrayList;

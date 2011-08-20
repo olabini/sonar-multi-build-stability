@@ -1,4 +1,4 @@
-package org.sonar.plugins.buildstability;
+package org.sonar.plugins.multibuildstability;
 
 import org.junit.Test;
 

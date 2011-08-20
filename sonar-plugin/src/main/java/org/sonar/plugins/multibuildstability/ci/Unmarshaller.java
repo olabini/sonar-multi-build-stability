@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability.ci;
+package org.sonar.plugins.multibuildstability.ci;
 
 import org.dom4j.Element;
-import org.sonar.plugins.buildstability.Build;
+import org.sonar.plugins.multibuildstability.Build;
 
 /**
  * @author Evgeny Mandrikov

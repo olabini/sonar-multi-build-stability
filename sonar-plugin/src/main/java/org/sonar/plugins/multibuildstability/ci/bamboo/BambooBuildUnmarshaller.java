@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability.ci.bamboo;
+package org.sonar.plugins.multibuildstability.ci.bamboo;
 
 import org.dom4j.Element;
-import org.sonar.plugins.buildstability.Build;
-import org.sonar.plugins.buildstability.ci.Unmarshaller;
+import org.sonar.plugins.multibuildstability.Build;
+import org.sonar.plugins.multibuildstability.ci.Unmarshaller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

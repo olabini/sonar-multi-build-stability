@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability;
+package org.sonar.plugins.multibuildstability;
 
 import org.sonar.api.batch.Event;
 import org.sonar.api.batch.Sensor;

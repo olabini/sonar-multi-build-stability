@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability.ci.hudson;
+package org.sonar.plugins.multibuildstability.ci.hudson;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.lang.StringUtils;
-import org.sonar.plugins.buildstability.ci.AbstractServer;
-import org.sonar.plugins.buildstability.ci.Unmarshaller;
+import org.sonar.plugins.multibuildstability.ci.AbstractServer;
+import org.sonar.plugins.multibuildstability.ci.Unmarshaller;
 
 import java.io.IOException;
 

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability.ci.bamboo;
+package org.sonar.plugins.multibuildstability.ci.bamboo;
 
-import org.sonar.plugins.buildstability.ci.AbstractServer;
-import org.sonar.plugins.buildstability.ci.Unmarshaller;
+import org.sonar.plugins.multibuildstability.ci.AbstractServer;
+import org.sonar.plugins.multibuildstability.ci.Unmarshaller;
 
 /**
  * See <a href="http://confluence.atlassian.com/display/BAMBOO/Bamboo+REST+APIs">Bamboo REST APIs</a>.

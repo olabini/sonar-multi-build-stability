@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability;
+package org.sonar.plugins.multibuildstability;
 
 import org.sonar.api.web.AbstractRubyTemplate;
 import org.sonar.api.web.NavigationSection;
@@ -37,6 +37,6 @@ public class BuildStabilityWidget extends AbstractRubyTemplate implements RubyRa
 
   @Override
   protected String getTemplatePath() {
-    return "/org/sonar/plugins/buildstability/buildStabilityWidget.erb";
+    return "/org/sonar/plugins/multibuildstability/buildStabilityWidget.erb";
   }
 }

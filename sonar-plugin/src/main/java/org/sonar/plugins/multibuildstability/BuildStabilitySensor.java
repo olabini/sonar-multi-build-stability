@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sonar.plugins.buildstability;
+package org.sonar.plugins.multibuildstability;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.model.CiManagement;
@@ -25,8 +25,8 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
-import org.sonar.plugins.buildstability.ci.CiConnector;
-import org.sonar.plugins.buildstability.ci.CiFactory;
+import org.sonar.plugins.multibuildstability.ci.CiConnector;
+import org.sonar.plugins.multibuildstability.ci.CiFactory;
 
 import java.util.*;
 
