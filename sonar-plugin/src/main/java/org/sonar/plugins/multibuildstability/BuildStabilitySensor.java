@@ -27,6 +27,7 @@ import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.multibuildstability.ci.CiConnector;
 import org.sonar.plugins.multibuildstability.ci.CiFactory;
+import org.sonar.plugins.multibuildstability.ci.CiConfiguration;
 
 import java.util.*;
 
@@ -43,47 +44,48 @@ public class BuildStabilitySensor implements Sensor {
   public static final String CI_URL_PROPERTY = "sonar.build-stability.url";
 
   public boolean shouldExecuteOnProject(Project project) {
-    return project.isRoot() &&
-        StringUtils.isNotEmpty(getCiUrl(project));
+    return project.isRoot() && !getCiConfigurations(project).isEmpty();
   }
 
-  protected String getCiUrl(Project project) {
-    String url = project.getConfiguration().getString(CI_URL_PROPERTY);
-    if (StringUtils.isNotEmpty(url)) {
-      return url;
-    }
-    CiManagement ci = project.getPom().getCiManagement();
-    if (ci != null && StringUtils.isNotEmpty(ci.getSystem()) && StringUtils.isNotEmpty(ci.getUrl())) {
-      return ci.getSystem() + ":" + ci.getUrl();
-    }
-    return null;
+  protected List<CiConfiguration> getCiConfigurations(Project project) {
+      String url = project.getConfiguration().getString(CI_URL_PROPERTY);
+      List<CiConfiguration> result = CiConfiguration.parseAllFrom(url);
+      if(result.isEmpty()) {
+          result = new LinkedList<CiConfiguration>();
+          CiManagement ci = project.getPom().getCiManagement();
+          if(ci != null && StringUtils.isNotEmpty(ci.getSystem()) && StringUtils.isNotEmpty(ci.getUrl())) {
+              result.add(new CiConfiguration("", ci.getSystem().toLowerCase(), ci.getUrl()));
+          }
+      }
+      return result;
   }
 
   public void analyse(Project project, SensorContext context) {
-    Logger logger = LoggerFactory.getLogger(getClass());
-    String ciUrl = getCiUrl(project);
-    logger.info("CI URL: {}", ciUrl);
-    String username = project.getConfiguration().getString(USERNAME_PROPERTY);
-    String password = project.getConfiguration().getString(PASSWORD_PROPERTY);
-    boolean useJSecurityCheck = project.getConfiguration().getBoolean(USE_JSECURITYCHECK_PROPERTY, USE_JSECURITYCHECK_DEFAULT_VALUE);
-    List<Build> builds;
-    try {
-      CiConnector connector = CiFactory.create(ciUrl, username, password, useJSecurityCheck);
-      if (connector == null) {
-        logger.warn("Unknown CiManagement system or incorrect URL: {}", ciUrl);
-        return;
+      Logger logger = LoggerFactory.getLogger(getClass());
+      String username = project.getConfiguration().getString(USERNAME_PROPERTY);
+      String password = project.getConfiguration().getString(PASSWORD_PROPERTY);
+      boolean useJSecurityCheck = project.getConfiguration().getBoolean(USE_JSECURITYCHECK_PROPERTY, USE_JSECURITYCHECK_DEFAULT_VALUE);
+
+      List<CiConfiguration> ciConfigs = getCiConfigurations(project);
+      for(CiConfiguration config : ciConfigs) {
+          logger.info("CI URL: {}", config.toString());
+          try {
+              CiConnector connector = CiFactory.create(config, username, password, useJSecurityCheck);
+              if(connector == null) {
+                  logger.warn("Unknown CiManagement system or incorrect URL: {}", config.toString());
+              } else {
+                  int daysToRetrieve = project.getConfiguration().getInt(DAYS_PROPERTY, DAYS_DEFAULT_VALUE);
+                  Calendar calendar = Calendar.getInstance();
+                  calendar.add(Calendar.DAY_OF_MONTH, -daysToRetrieve);
+                  Date date = calendar.getTime();
+                  List<Build> builds = connector.getBuildsSince(date);
+                  logger.info("Retrieved {} builds since {}", builds.size(), date);
+                  analyseBuilds(builds, context);
+              }
+          } catch (Exception e) {
+              logger.error(e.getMessage(), e);
+          }
       }
-      int daysToRetrieve = project.getConfiguration().getInt(DAYS_PROPERTY, DAYS_DEFAULT_VALUE);
-      Calendar calendar = Calendar.getInstance();
-      calendar.add(Calendar.DAY_OF_MONTH, -daysToRetrieve);
-      Date date = calendar.getTime();
-      builds = connector.getBuildsSince(date);
-      logger.info("Retrieved {} builds since {}", builds.size(), date);
-    } catch (Exception e) {
-      logger.error(e.getMessage(), e);
-      return;
-    }
-    analyseBuilds(builds, context);
   }
 
   protected void analyseBuilds(List<Build> builds, SensorContext context) {

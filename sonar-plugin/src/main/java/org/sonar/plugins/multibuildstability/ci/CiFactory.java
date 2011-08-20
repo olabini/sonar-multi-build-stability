@@ -30,25 +30,13 @@ public final class CiFactory {
   private CiFactory() {
   }
 
-  public static String getSystem(String ciUrl) {
-    return StringUtils.substringBefore(ciUrl, ":");
-  }
-
-  public static String getUrl(String ciUrl) {
-    return StringUtils.substringAfter(ciUrl, ":");
-  }
-
-  public static CiConnector create(String ciUrl, String username, String password, boolean useJSecurityCheck) {
-    return create(getSystem(ciUrl), getUrl(ciUrl), username, password, useJSecurityCheck);
-  }
-
-  public static CiConnector create(String system, String url, String username, String password, boolean useJSecurityCheck) {
+  public static CiConnector create(CiConfiguration config, String username, String password, boolean useJSecurityCheck) {
     AbstractServer server;
     String pattern;
-    if (BambooServer.SYSTEM.equalsIgnoreCase(system)) {
+    if (BambooServer.SYSTEM.equalsIgnoreCase(config.getSystem())) {
       server = new BambooServer();
       pattern = BambooServer.PATTERN;
-    } else if (HudsonServer.SYSTEM.equalsIgnoreCase(system)) {
+    } else if (HudsonServer.SYSTEM.equalsIgnoreCase(config.getSystem())) {
       server = new HudsonServer();
       ((HudsonServer) server).setUseJSecurityCheck(useJSecurityCheck);
       pattern = HudsonServer.PATTERN;
@@ -58,12 +46,12 @@ public final class CiFactory {
     server.setUsername(username);
     server.setPassword(password);
 
-    int i = url.indexOf(pattern);
+    int i = config.getUrl().indexOf(pattern);
     if (i == -1) {
       return null;
     }
-    String base = url.substring(0, i);
-    String key = url.substring(i + pattern.length());
+    String base = config.getUrl().substring(0, i);
+    String key = config.getUrl().substring(i + pattern.length());
     server.setHost(base);
     server.setKey(key);
 

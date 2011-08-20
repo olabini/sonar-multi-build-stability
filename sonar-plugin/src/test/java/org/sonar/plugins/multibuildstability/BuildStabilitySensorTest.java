@@ -35,6 +35,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.*;
 
+import org.sonar.plugins.multibuildstability.ci.CiConfiguration;
+
 /**
  * @author Evgeny Mandrikov
  */
@@ -59,7 +61,9 @@ public class BuildStabilitySensorTest {
     when(project.getPom()).thenReturn(mavenProject);
     when(project.getConfiguration()).thenReturn(configuration);
 
-    assertThat(sensor.getCiUrl(project), is("Hudson:conf"));
+    CiConfiguration config = sensor.getCiConfigurations(project).get(0);
+    assertThat(config.getSystem(), is("hudson"));
+    assertThat(config.getUrl(), is("conf"));
   }
 
   @Test

@@ -11,7 +11,7 @@ public class CiConfiguration {
     private final String system;
     private final String url;
 
-    private CiConfiguration(String title, String system, String url) {
+    public CiConfiguration(String title, String system, String url) {
         this.title = title;
         this.system = system;
         this.url = url;
@@ -28,6 +28,18 @@ public class CiConfiguration {
     public String getUrl() {
         return this.url;
     }
+
+    @Override
+    public String toString() {
+        String result = system + ":" + url;
+
+        if(title != null && title.length() > 0) {
+            result = "[" + title + "]" + result;
+        }
+        
+        return result;
+    }
+
 
     private final static Set<String> recognizedSystems = new HashSet<String>(Arrays.asList(
                                                                                            "bamboo",
@@ -131,7 +143,7 @@ public class CiConfiguration {
     }
 
     public static List<CiConfiguration> parseAllFrom(String input) {
-        List<String> pieces = separateDifferentConfigurations(input);
+        List<String> pieces = separateDifferentConfigurations(input == null ? "" : input);
         List<CiConfiguration> result = new LinkedList<CiConfiguration>();
         
         for(String spec : pieces) {
