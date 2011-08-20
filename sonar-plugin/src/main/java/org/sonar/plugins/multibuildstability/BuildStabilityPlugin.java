@@ -84,7 +84,7 @@ public class BuildStabilityPlugin implements Plugin {
   }
 
   public String getName() {
-    return "Build Stability";
+    return "Multi Build Stability";
   }
 
   public String getDescription() {
