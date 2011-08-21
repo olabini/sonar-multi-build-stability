@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * @author Evgeny Mandrikov
  */
-public class BuildStabilityEventsSensor implements Sensor {
+public class BuildStabilityEventsSensor {
   public static final String CATEGORY_BUILD = "Build";
 
   public boolean shouldExecuteOnProject(Project project) {
@@ -38,7 +38,7 @@ public class BuildStabilityEventsSensor implements Sensor {
     // TODO we can remove old events here
     List<Build> builds = getBuildsFromEvents(project, context);
     // TODO don't create another sensor
-    new BuildStabilitySensor().analyseBuilds(builds, context);
+    new BuildStabilitySensor().analyseBuilds(builds, context, 0, "");
   }
 
   public static List<Build> getBuildsFromEvents(Project project, SensorContext context) {

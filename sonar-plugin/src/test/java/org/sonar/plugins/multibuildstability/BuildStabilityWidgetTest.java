@@ -27,7 +27,7 @@ import static org.junit.Assert.assertThat;
 public class BuildStabilityWidgetTest {
   @Test
   public void testGetTemplatePath() {
-    String path = new BuildStabilityWidget().getTemplatePath();
+    String path = new BuildStabilityWidget(0).getTemplatePath();
     assertThat(getClass().getResource(path), notNullValue());
   }
 }

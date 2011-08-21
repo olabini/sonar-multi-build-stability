@@ -27,16 +27,26 @@ import org.sonar.api.web.UserRole;
 @NavigationSection(NavigationSection.RESOURCE)
 @UserRole(UserRole.USER)
 public class BuildStabilityWidget extends AbstractRubyTemplate implements RubyRailsWidget {
-  public String getId() {
-    return "buildstability-widget";
-  }
+    private final int index;
 
-  public String getTitle() {
-    return "BuildStability widget";
-  }
+    public BuildStabilityWidget(int index) {
+        this.index = index;
+    }
 
-  @Override
-  protected String getTemplatePath() {
-    return "/org/sonar/plugins/multibuildstability/buildStabilityWidget.erb";
-  }
+    public int getIndex() {
+        return index;
+    }
+
+    public String getId() {
+        return "buildstability-widget-" + index;
+    }
+
+    public String getTitle() {
+        return "BuildStability widget (" + index + ")";
+    }
+
+    @Override
+    protected String getTemplatePath() {
+        return "/org/sonar/plugins/multibuildstability/buildStabilityWidget.erb";
+    }
 }

@@ -18,175 +18,185 @@ package org.sonar.plugins.multibuildstability;
 
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metrics;
+import org.sonar.api.resources.Project;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Evgeny Mandrikov
  */
 public class BuildStabilityMetrics implements Metrics {
-  public static final String DOMAIN_BUILD = "Continuous integration";
+    public static final String DOMAIN_BUILD = "Continuous integration";
 
-  /**
-   * Number of builds.
-   */
-  public static final Metric BUILDS = new Metric(
-      "builds",
-      "Builds",
-      "Number of builds",
-      Metric.ValueType.INT,
-      Metric.DIRECTION_NONE,
-      false,
-      DOMAIN_BUILD
-  );
+    public static Metric BUILDS(int index) {
+        return new Metric(
+                          "builds_" + index,
+                          "Builds",
+                          "Number of builds",
+                          Metric.ValueType.INT,
+                          Metric.DIRECTION_NONE,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-  /**
-   * Number of failed builds.
-   */
-  public static final Metric FAILED = new Metric(
-      "build_failures",
-      "Failed Builds",
-      "Number of failed builds",
-      Metric.ValueType.INT,
-      Metric.DIRECTION_WORST,
-      false,
-      DOMAIN_BUILD
-  );
+    public static Metric FAILED(int index) {
+        return new Metric(
+                          "build_failures_" + index,
+                          "Failed Builds",
+                          "Number of failed builds",
+                          Metric.ValueType.INT,
+                          Metric.DIRECTION_WORST,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-  /**
-   * Ratio of successful builds. Measured as percentage of successful builds out of all last builds.
-   */
-  public static final Metric SUCCESS_RATE = new Metric(
-      "build_success_density",
-      "Success Rate (%)",
-      "Ratio of successful builds",
-      Metric.ValueType.PERCENT,
-      Metric.DIRECTION_BETTER,
-      false,
-      DOMAIN_BUILD
-  );
 
-  /**
-   * Build average duration. Includes only duration of successful builds.
-   */
-  public static final Metric AVG_DURATION = new Metric(
-      "build_average_duration",
-      "Average Duration",
-      "Average Duration",
-      Metric.ValueType.MILLISEC,
-      Metric.DIRECTION_WORST,
-      false,
-      DOMAIN_BUILD
-  );
+    public static Metric SUCCESS_RATE(int index) {
+        return new Metric(
+                          "build_success_density_" + index,
+                          "Success Rate (%)",
+                          "Ratio of successful builds",
+                          Metric.ValueType.PERCENT,
+                          Metric.DIRECTION_BETTER,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-  /**
-   * Duration of longest successful build.
-   */
-  public static final Metric LONGEST_DURATION = new Metric(
-      "build_longest_duration",
-      "Longest duration",
-      "Duration of longest successful build",
-      Metric.ValueType.MILLISEC,
-      Metric.DIRECTION_WORST,
-      false,
-      DOMAIN_BUILD
-  );
+    public static Metric AVG_DURATION(int index) {
+        return new Metric(
+                          "build_average_duration_" + index,
+                          "Average Duration",
+                          "Average Duration",
+                          Metric.ValueType.MILLISEC,
+                          Metric.DIRECTION_WORST,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-  /**
-   * Duration of shortest successful build.
-   */
-  public static final Metric SHORTEST_DURATION = new Metric(
-      "build_shortest_duration",
-      "Shortest duration",
-      "Duration of shortest successful build",
-      Metric.ValueType.MILLISEC,
-      Metric.DIRECTION_WORST,
-      false,
-      DOMAIN_BUILD
-  );
+    public static Metric LONGEST_DURATION(int index) {
+        return new Metric(
+                          "build_longest_duration_" + index,
+                          "Longest duration",
+                          "Duration of longest successful build",
+                          Metric.ValueType.MILLISEC,
+                          Metric.DIRECTION_WORST,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-  /**
-   * Average time to fix a failure.
-   */
-  public static final Metric AVG_TIME_TO_FIX = new Metric(
-      "build_average_time_to_fix_failure",
-      "Average time to fix a failure",
-      "Average time to fix a failure",
-      Metric.ValueType.MILLISEC,
-      Metric.DIRECTION_WORST,
-      false,
-      DOMAIN_BUILD
-  );
+    public static Metric SHORTEST_DURATION(int index) {
+        return new Metric(
+                          "build_shortest_duration_" + index,
+                          "Shortest duration",
+                          "Duration of shortest successful build",
+                          Metric.ValueType.MILLISEC,
+                          Metric.DIRECTION_WORST,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-  /**
-   * Longest time to fix a failure.
-   */
-  public static final Metric LONGEST_TIME_TO_FIX = new Metric(
-      "build_longest_time_to_fix_failure",
-      "Longest time to fix a failure",
-      "Longest time to fix a failure",
-      Metric.ValueType.MILLISEC,
-      Metric.DIRECTION_WORST,
-      false,
-      DOMAIN_BUILD
-  );
+    public static Metric AVG_TIME_TO_FIX(int index) {
+        return new Metric(
+                          "build_average_time_to_fix_failure_" + index,
+                          "Average time to fix a failure",
+                          "Average time to fix a failure",
+                          Metric.ValueType.MILLISEC,
+                          Metric.DIRECTION_WORST,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-  /**
-   * Average number of builds between fixes.
-   */
-  public static final Metric AVG_BUILDS_TO_FIX = new Metric(
-      "build_average_builds_to_fix_failure",
-      "Average number of builds between fixes",
-      "Average number of builds between fixes",
-      Metric.ValueType.INT,
-      Metric.DIRECTION_WORST,
-      false,
-      DOMAIN_BUILD
-  );
+    public static Metric LONGEST_TIME_TO_FIX(int index) {
+        return new Metric(
+                          "build_longest_time_to_fix_failure_" + index,
+                          "Longest time to fix a failure",
+                          "Longest time to fix a failure",
+                          Metric.ValueType.MILLISEC,
+                          Metric.DIRECTION_WORST,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-  /**
-   * TODO comment me (seconds)
-   */
-  public static final Metric DURATIONS = new Metric(
-      "build_durations",
-      "Durations",
-      "Durations",
-      Metric.ValueType.DATA,
-      Metric.DIRECTION_NONE,
-      false,
-      DOMAIN_BUILD
-  );
+    public static Metric AVG_BUILDS_TO_FIX(int index) {
+        return new Metric(
+                          "build_average_builds_to_fix_failure_" + index,
+                          "Average number of builds between fixes",
+                          "Average number of builds between fixes",
+                          Metric.ValueType.INT,
+                          Metric.DIRECTION_WORST,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-  /**
-   * TODO comment me
-   */
-  public static final Metric RESULTS = new Metric(
-      "build_results",
-      "Results",
-      "Results",
-      Metric.ValueType.DATA,
-      Metric.DIRECTION_NONE,
-      false,
-      DOMAIN_BUILD
-  );
+    public static Metric DURATIONS(int index) {
+        return new Metric(
+                          "build_durations_" + index,
+                          "Durations",
+                          "Durations",
+                          Metric.ValueType.DATA,
+                          Metric.DIRECTION_NONE,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-  public List<Metric> getMetrics() {
-    return Arrays.asList(
-        BUILDS,
-        FAILED,
-        SUCCESS_RATE,
+    public static Metric RESULTS(int index) {
+        return new Metric(
+                          "build_results_" + index,
+                          "Results",
+                          "Results",
+                          Metric.ValueType.DATA,
+                          Metric.DIRECTION_NONE,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-        AVG_DURATION,
-        LONGEST_DURATION,
-        SHORTEST_DURATION,
+    public static Metric NAME(int index) {
+        return new Metric(
+                          "build_name_" + index,
+                          "Name",
+                          "Name",
+                          Metric.ValueType.DATA,
+                          Metric.DIRECTION_NONE,
+                          false,
+                          DOMAIN_BUILD
+                          );
+    }
 
-        AVG_TIME_TO_FIX,
-        LONGEST_TIME_TO_FIX,
-        AVG_BUILDS_TO_FIX,
+    public List<Metric> getMetrics() {
+        List<Metric> result = new ArrayList<Metric>(10 * 12);
 
-        DURATIONS,
-        RESULTS
-    );
-  }
+        for(int i = 0; i<10; i++) {
+            result.add(BUILDS(i));
+            result.add(FAILED(i));
+            result.add(SUCCESS_RATE(i));
+
+            result.add(AVG_DURATION(i));
+            result.add(LONGEST_DURATION(i));
+            result.add(SHORTEST_DURATION(i));
+
+            result.add(AVG_TIME_TO_FIX(i));
+            result.add(LONGEST_TIME_TO_FIX(i));
+            result.add(AVG_BUILDS_TO_FIX(i));
+
+            result.add(DURATIONS(i));
+            result.add(RESULTS(i));
+
+            result.add(NAME(i));
+        }
+
+        return result;
+    }
 }

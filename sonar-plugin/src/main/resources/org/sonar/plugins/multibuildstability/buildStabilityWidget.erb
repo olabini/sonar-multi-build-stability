@@ -1,21 +1,33 @@
 <%
-   builds_measure = measure('builds')
-   success_rate_measure = measure('build_success_density')
-   failed_measure = measure('build_failures')
+   key = widget.widget_key
+   /buildstability-widget-(\d+)/ =~ key
+   
+   index = $1.to_i
 
-   average_duration_measure = measure('build_average_duration')
-   longest_duration_measure = measure('build_longest_duration')
-   shortest_duration_measure = measure('build_shortest_duration')
+   builds_measure = measure("builds_#{index}")
+   success_rate_measure = measure("build_success_density_#{index}")
+   failed_measure = measure("build_failures_#{index}")
 
-   average_time_to_fix_measure = measure('build_average_time_to_fix_failure')
-   longest_time_to_fix_measure = measure('build_longest_time_to_fix_failure')
-   average_builds_to_fix_measure = measure('build_average_builds_to_fix_failure')
+   average_duration_measure = measure("build_average_duration_#{index}")
+   longest_duration_measure = measure("build_longest_duration_#{index}")
+   shortest_duration_measure = measure("build_shortest_duration_#{index}")
 
-   durations_measure = measure('build_durations')
-   results_measure = measure('build_results')
+   average_time_to_fix_measure = measure("build_average_time_to_fix_failure_#{index}")
+   longest_time_to_fix_measure = measure("build_longest_time_to_fix_failure_#{index}")
+   average_builds_to_fix_measure = measure("build_average_builds_to_fix_failure_#{index}")
+
+   durations_measure = measure("build_durations_#{index}")
+   results_measure = measure("build_results_#{index}")
+
+   build_name = measure("build_name_#{index}")
 
    if builds_measure
 %>
+
+<div class="handle">
+  <%=h(build_name.text_value.empty? ? widget.name : build_name.text_value)%>
+</div>
+
   <div class="yui-gd">
     <div class="yui-u first">
       <div class="dashbox">

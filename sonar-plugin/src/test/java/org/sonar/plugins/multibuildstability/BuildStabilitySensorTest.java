@@ -95,22 +95,24 @@ public class BuildStabilitySensorTest {
         new Build(4, 20, "Fake", true, 5)
     );
 
-    sensor.analyseBuilds(builds, context);
+    sensor.analyseBuilds(builds, context, 42, "Blarg");
 
-    verify(context).saveMeasure(argThat((new IsMeasure(BuildStabilityMetrics.BUILDS, 4.0))));
-    verify(context).saveMeasure(argThat((new IsMeasure(BuildStabilityMetrics.FAILED, 1.0))));
-    verify(context).saveMeasure(argThat((new IsMeasure(BuildStabilityMetrics.SUCCESS_RATE, 75.0))));
+    verify(context).saveMeasure(argThat((new IsMeasure(BuildStabilityMetrics.BUILDS(42), 4.0))));
+    verify(context).saveMeasure(argThat((new IsMeasure(BuildStabilityMetrics.FAILED(42), 1.0))));
+    verify(context).saveMeasure(argThat((new IsMeasure(BuildStabilityMetrics.SUCCESS_RATE(42), 75.0))));
 
-    verify(context).saveMeasure(argThat((new IsMeasure(BuildStabilityMetrics.AVG_DURATION, 6.0))));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SHORTEST_DURATION, 3.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_DURATION, 10.0)));
+    verify(context).saveMeasure(argThat((new IsMeasure(BuildStabilityMetrics.AVG_DURATION(42), 6.0))));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SHORTEST_DURATION(42), 3.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_DURATION(42), 10.0)));
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_TIME_TO_FIX, 9.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_TIME_TO_FIX, 9.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_BUILDS_TO_FIX, 1.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_TIME_TO_FIX(42), 9.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_TIME_TO_FIX(42), 9.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_BUILDS_TO_FIX(42), 1.0)));
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.DURATIONS, "1=0.01;2=0.0040;3=0.0030;4=0.0050")));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.RESULTS, "1=g;2=r;3=g;4=g")));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.DURATIONS(42), "1=0.01;2=0.0040;3=0.0030;4=0.0050")));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.RESULTS(42), "1=g;2=r;3=g;4=g")));
+
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.NAME(42), "Blarg")));
 
     verifyNoMoreInteractions(context);
   }
@@ -122,22 +124,24 @@ public class BuildStabilitySensorTest {
         new Build(1, 0, "Fake", false, 10)
     );
 
-    sensor.analyseBuilds(builds, context);
+    sensor.analyseBuilds(builds, context, 0, "hmm");
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.BUILDS, 1.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.FAILED, 1.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SUCCESS_RATE, 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.BUILDS(0), 1.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.FAILED(0), 1.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SUCCESS_RATE(0), 0.0)));
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_DURATION, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SHORTEST_DURATION, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_DURATION, 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_DURATION(0), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SHORTEST_DURATION(0), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_DURATION(0), 0.0)));
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_TIME_TO_FIX, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_TIME_TO_FIX, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_BUILDS_TO_FIX, 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_TIME_TO_FIX(0), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_TIME_TO_FIX(0), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_BUILDS_TO_FIX(0), 0.0)));
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.DURATIONS, "1=0.01")));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.RESULTS, "1=r")));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.DURATIONS(0), "1=0.01")));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.RESULTS(0), "1=r")));
+
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.NAME(0), "hmm")));
 
     verifyNoMoreInteractions(context);
   }
@@ -149,22 +153,24 @@ public class BuildStabilitySensorTest {
         new Build(1, 0, "Fake", true, 10)
     );
 
-    sensor.analyseBuilds(builds, context);
+    sensor.analyseBuilds(builds, context, 1, "Something");
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.BUILDS, 1.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.FAILED, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SUCCESS_RATE, 100.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.BUILDS(1), 1.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.FAILED(1), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SUCCESS_RATE(1), 100.0)));
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_DURATION, 10.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SHORTEST_DURATION, 10.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_DURATION, 10.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_DURATION(1), 10.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SHORTEST_DURATION(1), 10.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_DURATION(1), 10.0)));
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_TIME_TO_FIX, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_TIME_TO_FIX, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_BUILDS_TO_FIX, 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_TIME_TO_FIX(1), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_TIME_TO_FIX(1), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_BUILDS_TO_FIX(1), 0.0)));
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.DURATIONS, "1=0.01")));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.RESULTS, "1=g")));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.DURATIONS(1), "1=0.01")));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.RESULTS(1), "1=g")));
+
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.NAME(1), "Something")));
 
     verifyNoMoreInteractions(context);
   }
@@ -174,19 +180,21 @@ public class BuildStabilitySensorTest {
     SensorContext context = mock(SensorContext.class);
     List<Build> builds = Collections.emptyList();
 
-    sensor.analyseBuilds(builds, context);
+    sensor.analyseBuilds(builds, context, 2, "Woops");
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.BUILDS, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.FAILED, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SUCCESS_RATE, 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.BUILDS(2), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.FAILED(2), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SUCCESS_RATE(2), 0.0)));
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_DURATION, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SHORTEST_DURATION, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_DURATION, 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_DURATION(2), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.SHORTEST_DURATION(2), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_DURATION(2), 0.0)));
 
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_TIME_TO_FIX, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_TIME_TO_FIX, 0.0)));
-    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_BUILDS_TO_FIX, 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_TIME_TO_FIX(2), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.LONGEST_TIME_TO_FIX(2), 0.0)));
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.AVG_BUILDS_TO_FIX(2), 0.0)));
+
+    verify(context).saveMeasure(argThat(new IsMeasure(BuildStabilityMetrics.NAME(2), "Woops")));
 
     verifyNoMoreInteractions(context);
   }

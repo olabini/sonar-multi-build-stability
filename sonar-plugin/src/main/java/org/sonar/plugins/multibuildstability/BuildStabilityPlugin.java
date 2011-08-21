@@ -41,9 +41,10 @@ import java.util.List;
         key = BuildStabilitySensor.CI_URL_PROPERTY,
         defaultValue = "",
         name = "CiManagement",
-        description = "Continuous Integration Server. Leave blank to take this value from <i>pom.xml</i>. Example:" +
+        description = "Continuous Integration Server. Leave blank to take this value from <i>pom.xml</i>. More than one value can used by separating with | or newlines. Prepend a title within square bracket if wanted. Example:" +
+            "\"[We try this]jenkins:http://hudson.glassfish.org/job/hudson/\"" +
             "\"Hudson:http://hudson.glassfish.org/job/hudson/\"" +
-            "or \"Bamboo:http://ci.codehaus.org/browse/SONAR\".",
+            "or \"Bamboo:http://ci.codehaus.org/browse/SONAR|http://ci.codehaus.org/browse/SONARPLUGINS\".",
         global = false,
         project = true,
         module = false
@@ -96,9 +97,8 @@ public class BuildStabilityPlugin implements Plugin {
     return Arrays.asList(
         BuildStabilityMetrics.class,
         BuildStabilitySensor.class,
-        BuildStabilityEventsSensor.class,
-        BuildStabilityWidget.class,
-        BuildStabilityChart.class
+        BuildStabilityChart.class,
+        BuildStabilityExtensionProvider.class
     );
   }
 }
