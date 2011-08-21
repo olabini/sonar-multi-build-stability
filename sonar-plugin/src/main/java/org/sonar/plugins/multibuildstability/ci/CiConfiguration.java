@@ -63,7 +63,7 @@ public class CiConfiguration {
             if(current == '|' || current == '\n') {
                 if(last != '\\') {
                     String result = sep.toString().trim();
-                    if(!result.isEmpty()) {
+                    if(result.length() > 0) {
                         pieces.add(result);
                     }
                     sep = new StringBuilder();
@@ -78,7 +78,7 @@ public class CiConfiguration {
             }
         }
         String result = sep.toString().trim();
-        if(!result.isEmpty()) {
+        if(result.length() > 0) {
             pieces.add(result);
         }
         
