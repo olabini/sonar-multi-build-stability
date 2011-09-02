@@ -52,7 +52,7 @@ public class BuildStabilitySensor implements Sensor {
         List<CiConfiguration> result = CiConfiguration.parseAllFrom(url);
         if(result.isEmpty()) {
             result = new LinkedList<CiConfiguration>();
-            CiManagement ci = project.getPom().getCiManagement();
+            CiManagement ci = project.getPom() != null ? project.getPom().getCiManagement() : null;
             if(ci != null && StringUtils.isNotEmpty(ci.getSystem()) && StringUtils.isNotEmpty(ci.getUrl())) {
                 result.add(new CiConfiguration("", ci.getSystem().toLowerCase(), ci.getUrl()));
             }
